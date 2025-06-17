@@ -274,6 +274,7 @@ java/security/cert/CertPathValidator/nameConstraints/NameConstraintsWithUnexpect
 java/security/cert/CertPathValidator/nameConstraints/NameConstraintsWithoutRID.java https://github.com/eclipse-openj9/openj9/issues/20343 generic-all
 java/security/cert/CertPathValidator/nameConstraintsRFC822/ValidateCertPath.java https://github.com/eclipse-openj9/openj9/issues/20343 generic-all
 java/security/cert/CertPathValidator/trustAnchor/ValWithAnchorByName.java https://github.com/eclipse-openj9/openj9/issues/20343 generic-all
+java/security/cert/CertPathValidator/crlDP/CheckAllCRLs.java https://github.com/eclipse-openj9/openj9/issues/21996 generic-all
 java/security/cert/CertPathValidatorException/Serial.java https://github.com/eclipse-openj9/openj9/issues/20343 generic-all
 java/security/cert/CertificateRevokedException/Basic.java https://github.com/eclipse-openj9/openj9/issues/20343 generic-all
 java/security/cert/GetInstance.java https://github.com/eclipse-openj9/openj9/issues/20343 generic-all
@@ -810,6 +811,8 @@ sun/security/pkcs12/StorePasswordTest.java https://github.com/eclipse-openj9/ope
 sun/security/pkcs12/StoreSecretKeyTest.java https://github.com/eclipse-openj9/openj9/issues/20343 generic-all
 sun/security/pkcs12/StoreTrustedCertTest.java https://github.com/eclipse-openj9/openj9/issues/20343 generic-all
 sun/security/pkcs12/WrongPBES2.java https://github.com/eclipse-openj9/openj9/issues/20343 generic-all
+sun/security/pkcs12/AttributesCorrectness.java https://github.com/eclipse-openj9/openj9/issues/21996 generic-all
+sun/security/pkcs12/KeytoolOpensslInteropTest.java https://github.com/eclipse-openj9/openj9/issues/21996 generic-all
 sun/security/provider/DSA/SecureRandomReset.java https://github.com/eclipse-openj9/openj9/issues/20343 generic-all
 sun/security/provider/DSA/SupportedDSAParamGen.java https://github.com/eclipse-openj9/openj9/issues/20343 generic-all
 sun/security/provider/DSA/SupportedDSAParamGenLongKey.java https://github.com/eclipse-openj9/openj9/issues/20343 generic-all
