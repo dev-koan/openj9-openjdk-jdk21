@@ -57,7 +57,7 @@ public class SignatureLength {
                     // SunMSCAPI and SunPKCS11 verifiers may return false
                     // instead of throwing SignatureException
                     boolean mayNotThrow = p2.getName().equals("SunMSCAPI")
-                            || p2.getName().startsWith("SunPKCS11");
+                            || p2.getName().startsWith("SunPKCS11") || p2.getName().startsWith("OpenJCEPlus");
 
                     main0("EC", 256, "SHA256withECDSA", p0, p1, p2, mayNotThrow);
                     main0("RSA", 2048, "SHA256withRSA", p0, p1, p2, mayNotThrow);
