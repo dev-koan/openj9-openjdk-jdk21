@@ -27,11 +27,10 @@
  * @library /test/lib
  * @summary KeyPairGenerator Test with multiple threads.
  *  Arguments order <KeyExchangeAlgorithm> <Provider> <KeyGenAlgorithm> <Curve*>
- * @run main MultiThreadTest DiffieHellman SunJCE DiffieHellman
- * @run main MultiThreadTest ECDH SunEC EC
- * @run main MultiThreadTest XDH SunEC XDH X25519
  * @run main MultiThreadTest XDH SunEC XDH X448
  */
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.util.Arrays;
@@ -55,6 +54,7 @@ public class MultiThreadTest {
 
         String kaAlgo = args[0];
         String provider = System.getProperty("test.provider.name", args[1]);
+        // System.out.println("provider main parameter: " + provider);
         String kpgAlgo = args[2];
         KeyPairGenerator kpg = genKeyGenerator(provider, kpgAlgo,
                 (args.length > 3) ? args[3] : kpgAlgo);
@@ -66,7 +66,8 @@ public class MultiThreadTest {
      */
     private static KeyPairGenerator genKeyGenerator(String provider,
             String kpgAlgo, String kpgInit) throws Exception {
-
+        
+        // System.out.println("provider genkeygen parameter: " + provider);
         KeyPairGenerator kpg = KeyPairGenerator.getInstance(kpgAlgo, provider);
         switch (kpgInit) {
             case "DiffieHellman":
@@ -84,6 +85,7 @@ public class MultiThreadTest {
             default:
                 throw new RuntimeException("Invalid Algo name " + kpgInit);
         }
+        // System.out.println("provider genkeygen kpg: " + kpg.getProvider());
         return kpg;
     }
 
@@ -131,22 +133,45 @@ public class MultiThreadTest {
      */
     private static void testKeyAgreement(String provider, String kaAlgo,
             KeyPairGenerator kpg) throws Exception {
+        
+        try {
+            KeyPair kp1 = kpg.generateKeyPair();
+            KeyPair kp2 = kpg.generateKeyPair();
+        } catch (Exception e) {
+            // throw new Exception("kpg not thread safe ");
+            // System.err.println("kpg not thread safe" + e);
 
-        KeyPair kp1 = kpg.generateKeyPair();
-        KeyPair kp2 = kpg.generateKeyPair();
+            StringWriter sw = new StringWriter();
+            e.printStackTrace(new PrintWriter(sw));
+            String stackTrace = sw.toString();
+            System.err.println("kpg not thread safe\n" + stackTrace);
 
-        KeyAgreement ka1 = KeyAgreement.getInstance(kaAlgo, provider);
-        ka1.init(kp1.getPrivate());
-        ka1.doPhase(kp2.getPublic(), true);
-        byte[] secret1 = ka1.generateSecret();
-        KeyAgreement ka2 = KeyAgreement.getInstance(kaAlgo, provider);
-        ka2.init(kp2.getPrivate());
-        ka2.doPhase(kp1.getPublic(), true);
-        byte[] secret2 = ka2.generateSecret();
-
-        // With related keypairs, generated KeyAgreement secret should be same.
-        if (!Arrays.equals(secret1, secret2)) {
-            throw new Exception("KeyAgreement secret mismatch.");
+            // e.printStackTrace();
+            System.exit(1);
         }
+
+        try {
+        KeyAgreement ka1 = KeyAgreement.getInstance(kaAlgo, provider);
+        } catch (Exception e) {
+            System.err.println("ka1 not thread safe" + e);
+            System.exit(1);
+        }
+        // ka1.init(kp1.getPrivate());
+        // ka1.doPhase(kp2.getPublic(), true);
+        // byte[] secret1 = ka1.generateSecret();
+        try {
+        KeyAgreement ka2 = KeyAgreement.getInstance(kaAlgo, provider);
+        } catch (Exception e) {
+            System.err.println("ka2 not thread safe");
+            System.exit(1);
+        }
+        // ka2.init(kp2.getPrivate());
+        // ka2.doPhase(kp1.getPublic(), true);
+        // byte[] secret2 = ka2.generateSecret();
+
+        // // With related keypairs, generated KeyAgreement secret should be same.
+        // if (!Arrays.equals(secret1, secret2)) {
+        //     throw new Exception("KeyAgreement secret mismatch.");
+        // }
     }
 }

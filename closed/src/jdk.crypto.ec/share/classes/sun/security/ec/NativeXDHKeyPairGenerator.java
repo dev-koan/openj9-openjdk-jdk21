@@ -129,6 +129,7 @@ public class NativeXDHKeyPairGenerator extends KeyPairGeneratorSpi {
                 System.err.println("SecureRandom implementation was provided during"
                         + " initialization. Using Java implementation instead of OpenSSL.");
             }
+
             useJavaImpl = true;
         }
     }
@@ -212,17 +213,19 @@ public class NativeXDHKeyPairGenerator extends KeyPairGeneratorSpi {
      * Already set parameters are used to specify the curve type.
      */
     private void initializeJavaImplementation() {
-        if (javaImplementation == null) {
+        XDHKeyPairGenerator kpg = javaImplementation;
+        if (kpg == null) {
             if (lockedParams == null) {
-                javaImplementation = new XDHKeyPairGenerator();
+                kpg = new XDHKeyPairGenerator();
             } else if (isX25519(lockedParams)) {
-                javaImplementation = new XDHKeyPairGenerator.X25519();
+                kpg = new XDHKeyPairGenerator.X25519();
             } else {
-                javaImplementation = new XDHKeyPairGenerator.X448();
+                kpg = new XDHKeyPairGenerator.X448();
             }
         }
 
-        javaImplementation.initialize(ops.getParameters().getBits(), random);
+        kpg.initialize(ops.getParameters().getBits(), random);
+        javaImplementation = kpg;
     }
 
     /*
