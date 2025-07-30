@@ -125,6 +125,8 @@ public class NativeXDHKeyPairGenerator extends KeyPairGeneratorSpi {
                         + " initialization. Using OpenSSL.");
             }
         } else {
+            System.err.println("random provider: " + random.getProvider());
+            System.err.println("random algo: " + random.getAlgorithm());
             if (nativeCryptTrace) {
                 System.err.println("SecureRandom implementation was provided during"
                         + " initialization. Using Java implementation instead of OpenSSL.");
