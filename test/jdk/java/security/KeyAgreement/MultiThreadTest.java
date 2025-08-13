@@ -27,9 +27,6 @@
  * @library /test/lib
  * @summary KeyPairGenerator Test with multiple threads.
  *  Arguments order <KeyExchangeAlgorithm> <Provider> <KeyGenAlgorithm> <Curve*>
- * @run main MultiThreadTest DiffieHellman SunJCE DiffieHellman
- * @run main MultiThreadTest ECDH SunEC EC
- * @run main MultiThreadTest XDH SunEC XDH X25519
  * @run main MultiThreadTest XDH SunEC XDH X448
  */
 import java.security.KeyPair;

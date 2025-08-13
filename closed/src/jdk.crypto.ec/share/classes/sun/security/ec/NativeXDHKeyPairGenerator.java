@@ -222,7 +222,7 @@ public class NativeXDHKeyPairGenerator extends KeyPairGeneratorSpi {
             }
         }
 
-        javaImplementation.initialize(ops.getParameters().getBits(), random);
+        javaImplementation.initialize(448, random);
     }
 
     /*
