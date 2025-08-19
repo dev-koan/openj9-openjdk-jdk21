@@ -87,7 +87,12 @@ public class OCSPNoContentLength {
 
             validator.validate(path, params);
         } finally {
-            rootOcsp.stop();
+                try {
+                        rootOcsp.stop();
+                }
+                catch (Exception e) {
+                        e.printStackTrace();
+                }
         }
     }
 
