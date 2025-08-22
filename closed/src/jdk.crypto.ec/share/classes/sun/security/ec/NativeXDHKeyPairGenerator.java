@@ -213,19 +213,17 @@ public class NativeXDHKeyPairGenerator extends KeyPairGeneratorSpi {
      * Already set parameters are used to specify the curve type.
      */
     private void initializeJavaImplementation() {
-        XDHKeyPairGenerator kpg = javaImplementation;
-        if (kpg == null) {
-            if (lockedParams == null) {
-                kpg = new XDHKeyPairGenerator();
-            } else if (isX25519(lockedParams)) {
-                kpg = new XDHKeyPairGenerator.X25519();
+        if (javaImplementation == null) {
+            if (ops.getParameters() == null) {
+                javaImplementation = new XDHKeyPairGenerator();
+            } else if (isX25519(ops.getParameters())) {
+                javaImplementation = new XDHKeyPairGenerator.X25519();
             } else {
-                kpg = new XDHKeyPairGenerator.X448();
+                javaImplementation = new XDHKeyPairGenerator.X448();
             }
         }
 
-        kpg.initialize(ops.getParameters().getBits(), random);
-        javaImplementation = kpg;
+        javaImplementation.initialize(ops.getParameters().getBits(), random);
     }
 
     /*
